@@ -2,49 +2,39 @@
 // June, 2022
 // Program 1- Apartment Shopping List
 
+
+// Comments for main
+// - How does it fully meet the test plan
+// - 
+
 #include <iostream>
 #include "List.h"
 #include "apartment.h"
 #include "features.h"
 
-void get_name(char* & _name);
-void get_feature(char* & _feature);
-void get_review(char* & _review);
-void get_bedrooms(int & _bedrooms);
-void get_bathrooms(float & _bathrooms);
-void get_rent(float & _rent);
-Apartment make_apartment();
+void displayMenu(int& menu_choice);
+void processChoice (bool& flag, int menu_choice, Apartment_list & _list);
+void get_input(char* & _name);
+void get_input(char* & _feature);
+void get_input(char* & _review);
+void get_input(int & _bedrooms);
+void get_input(float & _bathrooms);
+void get_input(float & _rent);
+void make_apartment(Apartment & _apartment);
 
 const int SIZE = 100;
 
 int main()
 {
   Apartment_list list;
-  Apartment A1 = make_apartment();
-
-  bool success = list.add_apartment(A1);
-  if (success)
-    std::cout << "Added successfully!" << std::endl;
-  list.display_apartment_list();
-
-  Apartment A2 = make_apartment();
-  success = list.add_apartment(A2);
-  if (success)
-    std::cout << "Added successfully!" << std::endl;
-
-  list.display_apartment_list();
-
-  char* name = new char[SIZE];
-  get_name(name);
-  list.remove_apartment(name);
-  list.display_apartment_list();
-  delete [] name;
+  int menu_choice;
+  bool flag = true;
   
-/*
-  delete [] feature;
-  delete [] name;
-  delete [] review;
-*/
+  while(flag)
+    {
+        displayMenu(menu_choice);
+        processChoice(flag, menu_choice, list);
+    }
 
   return 0;
 }
@@ -52,7 +42,84 @@ int main()
 // Function definitions that may go into a header file.
 // ======================================================================================
 
-Apartment make_apartment(void)
+
+//Displays the menu of functions for the user to choose from.
+void displayMenu(int& menu_choice) {
+    std::cout << "==================================================================\n";
+    std::cout << "                         MENU" << std::endl;
+    std::cout << "==================================================================\n";
+
+    std::cout << "1) Add an apartment.\n";
+    std::cout << "2) Remove an apartment.\n";
+    std::cout << "3) Display apartments.\n";
+    //std::cout << "4) Add a feature for an apartment.\n";
+    //std::cout << "5) Display apartments with feature.\n";
+    std::cout << "4) Exit.\n";
+    std::cout << "Enter: ";
+    std::cin >> menu_choice;
+    std::cin.ignore(SIZE, '\n');
+    if (menu_choice > 4 || menu_choice < 1) 
+    {
+      std::cout << "Invalid Entry. Please enter a number from the options list provided.\n\n\n\n" << std::endl;
+        displayMenu(menu_choice);
+    }
+}
+
+//Provides option processing for the menu 
+void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
+{
+  //Takes in user input for menu choice and calls the appropriate function.
+  int check = 1;
+  int proceed = 1;
+  Apartment _apartment;
+  switch(menu_choice)
+    {
+      case 1:
+        {
+        make_apartment(_apartment);
+
+        bool success = _list.add_apartment(_apartment);
+        if (success)
+          std::cout << "Added successfully!" << std::endl;
+        break;
+        }
+
+      case 2: 
+        {
+        char* name = new char[SIZE];
+        std::cout << "Please enter the name of the apartment complex that we want to remove: ";
+        get_input(name);
+        _list.remove_apartment(name);
+        break;
+        }
+
+      case 3:
+        {
+        _list.display_apartment_list();
+        break;
+        }
+
+      case 4: 
+        {
+        std::cout << "Are you sure you want to exit?" << std::endl;
+        proceed = 0;
+        break;
+        }
+
+      default:
+          break;
+    }
+
+    if (proceed == 0)
+    {
+      std::cout << "Enter 0 to end program.\n" << std::endl;
+      std::cout << "Enter any other number to continue program.\n" << std::endl;
+      std::cin >> flag;
+      std::cin.ignore(SIZE, '\n');
+    }
+}
+
+void make_apartment(Apartment & _apartment)
 {
   char* name = new char[SIZE];
   //char* feature = new char[SIZE];
@@ -61,62 +128,37 @@ Apartment make_apartment(void)
   float bathrooms;
   float rent;
 
-  get_name(name);
-  //get_feature(feature);
-  //get_review(review);
-  get_bedrooms(bedrooms);
-  get_bathrooms(bathrooms);
-  get_rent(rent);
-  Apartment _apartment(name, bedrooms, rent, bathrooms);
-  return _apartment;
-
-}
-
-void get_name(char* & _name)
-{
   std::cout << "Please enter the name of the apartment complex: ";
-  std::cin.get(_name, SIZE, '\n');
-  std::cin.ignore(SIZE, '\n');
-}
-
-void get_feature(char * & _feature)
-{
-  std::cout << "Please enter the feature that you would like to review: ";
-  std::cin.get(_feature, SIZE, '\n');
-  std::cin.ignore(SIZE, '\n');
-}
-
-void get_review(char* & _review)
-{
-  if (_review != NULL)
-
-  _review = new char[SIZE];
-  std::cout << "Please enter the review: ";
-  std::cin.get(_review, SIZE, '\n');
-  std::cin.ignore(SIZE, '\n');
-}
-
-void get_bedrooms(int & _bedrooms)
-{
+  get_input(name);
+  //std::cout << "Please enter the feature that you would like to review: ";
+  //get_feature(feature);
+  //std::cout << "Please enter the review: ";
+  //get_review(review);
   std::cout << "Please enter the number of bedrooms: ";
-  std::cin.clear();
-  std::cin >> _bedrooms;
-  std::cin.ignore(SIZE, '\n');
-}
-
-void get_bathrooms(float & _bathrooms)
-{
+  get_input(bedrooms);
   std::cout << "Please enter the number of bathrooms: ";
-  std::cin.clear();
-  std::cin >> _bathrooms;
-  std::cin.ignore(SIZE, '\n');
-}
-
-void get_rent(float& _rent)
-{
+  get_input(bathrooms);
   std::cout << "Please enter the cost of rent per month: ";
-  std::cin >> _rent;
+  get_input(rent);
+  _apartment.set_apartment(name, bedrooms, rent, bathrooms);
+  delete [] name;
+}
+
+void get_input(char* & _value)
+{
+  std::cin.get(_value, SIZE, '\n');
   std::cin.ignore(SIZE, '\n');
 }
 
+void get_input(int & _value)
+{
+  std::cin >> _value;
+  std::cin.ignore(SIZE, '\n');
+}
+
+void get_input(float & _value)
+{
+  std::cin >> _value;
+  std::cin.ignore(SIZE, '\n');
+}
 

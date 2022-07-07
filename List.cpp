@@ -12,15 +12,13 @@ Apartment_list::~Apartment_list()
 {
     if (!head)
         return;
-    node* temp = head;
-    while(head->next)
+    node* temp = NULL;
+    while(head)
     {
         temp = head->next;
         delete head;
         head = temp;
     }
-    delete head;
-    head = NULL;
 }
 
 // @ Dev
@@ -30,7 +28,7 @@ Apartment_list::~Apartment_list()
 // letters. This function uses recursion through a wrapper and 
 // recursive function.
 
-// Wrapper
+// Wrapper function
 bool Apartment_list::add_apartment(Apartment & _apartment)
 {
   // Empty list
@@ -39,6 +37,7 @@ bool Apartment_list::add_apartment(Apartment & _apartment)
     node * temp = new node;
     temp->apartment.copy_entry(_apartment);
     head = temp;
+    head->next = nullptr;
     std::cout << "Empty list Apartment Added!" << std::endl;
     return true;
   }
@@ -46,7 +45,7 @@ bool Apartment_list::add_apartment(Apartment & _apartment)
   return add_apartment(head, _apartment);
 }
 
-// Recursive 
+// Recursive function
 bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
 {
   // Base case (we have hit the end of list)
@@ -55,6 +54,7 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
     node * temp = new node;
     temp->apartment.copy_entry(_apartment);
     head = temp;
+    head->next = nullptr;
     std::cout << "Base Case Apartment Added!" << std::endl;
     return true;
   }
@@ -79,7 +79,7 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
 // This function uses recursion through a wrapper and 
 // recursive function.
 
-// Wrapper
+// Wrapper function
 bool Apartment_list::display_apartment_list()
 {
   // Empty list
@@ -89,7 +89,7 @@ bool Apartment_list::display_apartment_list()
   return display_apartment_list(head);
 }
 
-// Recursive
+// Recursive function
 bool Apartment_list::display_apartment_list(node* & head)
 {
   // Base case
@@ -100,6 +100,12 @@ bool Apartment_list::display_apartment_list(node* & head)
   return display_apartment_list(head->next);
 }
 
+// @Dev
+// Removes an apartment based on a match of the name. 
+// Matching names is case sensitive at the moment. 
+// Consider adding a check of ascii values during input 
+// and convert to either lower or upper case for accurate 
+// matching. 
 bool Apartment_list::remove_apartment(char * _name) 
 {  
     // Five cases 
@@ -124,7 +130,7 @@ bool Apartment_list::remove_apartment(char * _name)
     }
 
     // Search the list for the node;
-    // Covers both nodes that are "sandwhiched" and the tail node case.
+    // Covers both nodes that are "sandwiched" and the tail node case.
     node * current = head;
     node * prev = head;
     while(current->next)

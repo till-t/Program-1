@@ -17,12 +17,15 @@ Feature::~Feature()
     delete [] review;
 }
 
+// Parameterized constructor
 Feature::Feature(char* f, char* r)
 {
     feature = f;
     review = r;
 }
 
+// Copy's a feature into another Feature object. Used
+// when inserting a Feature into the linked list.
 int Feature::copy_entry(const Feature & copy_from)
 {
   if (feature)
@@ -40,6 +43,7 @@ int Feature::copy_entry(const Feature & copy_from)
   return 1;
 }
 
+// Displays Feature object to the console.
 int Feature::display(void)
 {
   std::cout << "Feature: " << feature << std::endl;
@@ -47,6 +51,7 @@ int Feature::display(void)
   return 1;
 }
   
+// Getters to access private values when necessary
 char * Feature::get_feature() 
 {
   return feature;
@@ -56,8 +61,4 @@ char * Feature::get_review()
 {
   return review;
 }
-
-
-
-
 

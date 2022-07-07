@@ -2,6 +2,12 @@
 // June, 2022
 // Program 1- Apartment Shopping List
 
+
+// Comments for .cpp files
+// - Algorithms used
+// - How you are working with the data structure
+// - Aimed at the programmer maintaining the software
+
 #include "apartment.h"
 
 //Default constructor
@@ -17,7 +23,8 @@ Apartment::~Apartment()
 //Parameterized constructor. 
 Apartment::Apartment(char* _name, int _bedrooms, float _rent, float _bathrooms)
 {
-  name = _name;
+  name = new char[strlen(_name) + 1];
+  strcpy(name, _name);
   bedrooms = _bedrooms;
   rent = _rent;
   bathrooms = _bathrooms;
@@ -29,7 +36,6 @@ int Apartment::copy_entry(const Apartment & copy_from)
 {
   if (name)
     delete [] name;
-
   name = new char[strlen(copy_from.name) + 1];
   strcpy(name, copy_from.name);
   bedrooms = copy_from.bedrooms;
@@ -48,6 +54,17 @@ int Apartment::display(void)
   return 1;
 }
   
+void Apartment::set_apartment(char* _name, int _bedrooms, float _rent, float _bathrooms)
+{
+  name = new char[strlen(_name) + 1];
+  strcpy(name, _name);
+  bedrooms = _bedrooms;
+  rent = _rent;
+  bathrooms = _bathrooms;
+  feature_head = NULL;
+}
+
+
 char * Apartment::get_name() 
 {
   return name;
