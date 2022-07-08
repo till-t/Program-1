@@ -59,7 +59,10 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
     return true;
   }
 
-  
+  // Name is already in list
+  if(strcmp(_apartment.get_name(), head->apartment.get_name()) == 0 )
+      return false;
+
   // Alphatbetical add 
   if(strcmp(_apartment.get_name(), head->apartment.get_name()) < 0 )
   {
@@ -71,6 +74,7 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
     return true;
   }
 
+  // Recursive call to next node
   return add_apartment(head->next, _apartment);
 }
 

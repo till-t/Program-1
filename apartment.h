@@ -45,14 +45,33 @@ class Apartment
     void set_apartment(char* _name, int _bedrooms, float _rent, float _bathrooms);
 
     // Getters 
-    // ======================
+    // ========================================================================================
     char * get_name();
     Feature_node * get_node();
     int get_bedrooms();
     float get_bathrooms();
     float get_rent();
 
-//=============================================================================================================
+    // Functions that handle Feature list
+    // ========================================================================================
+    void delete_feature_list(); // Release all dynamic memory
+
+    // Add a new apartment by passing info for apartment as arguments.
+    // Return an error if the apartment is already in the list.
+    // Recursive function
+    bool add_feature(Feature & _feature);
+    bool add_feature(Feature_node * & head, Feature & _feature);
+
+    //Display all apartments in the list
+    // Recursive function
+    bool display_feature_list();
+    bool display_feature_list(Feature_node* & head);
+    
+    // Remove an apartment from the list.
+    // Pass the name of the apartment to be removed as an argument.
+    bool remove_feature(char * _name); // Iterative function
+ 
+  // ===============================================================================================
   private:
     char * name;
     int bedrooms;

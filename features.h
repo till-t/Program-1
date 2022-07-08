@@ -20,6 +20,7 @@ class Feature
     Feature();
     ~Feature();
     Feature(char* f, char* r);
+    void set_feature(char* _review, char* _feature);
     int copy_entry(const Feature & copy_from);
     int display(void);
     char * get_feature();

@@ -69,7 +69,7 @@ void displayMenu(int& menu_choice) {
 void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
 {
   //Takes in user input for menu choice and calls the appropriate function.
-  int check = 1;
+  int no = 0;
   int proceed = 1;
   Apartment _apartment;
   switch(menu_choice)
@@ -102,7 +102,7 @@ void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
       case 4: 
         {
         std::cout << "Are you sure you want to exit?" << std::endl;
-        proceed = 0;
+        proceed = no;
         break;
         }
 
@@ -110,7 +110,7 @@ void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
           break;
     }
 
-    if (proceed == 0)
+    if (proceed == no)
     {
       std::cout << "Enter 0 to end program.\n" << std::endl;
       std::cout << "Enter any other number to continue program.\n" << std::endl;

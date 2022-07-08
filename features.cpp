@@ -18,10 +18,22 @@ Feature::~Feature()
 }
 
 // Parameterized constructor
-Feature::Feature(char* f, char* r)
+Feature::Feature(char* _review, char* _feature)
 {
-    feature = f;
-    review = r;
+  review = new char[strlen(_review) + 1];
+  strcpy(review, _review);
+  feature = new char[strlen(_feature) + 1];
+  strcpy(feature, _feature);
+}
+
+// Pass character arrays as arguments which will be used
+// change the values that are held in our Feature object.
+void Feature::set_feature(char* _review, char* _feature)
+{
+  review = new char[strlen(_review) + 1];
+  strcpy(review, _review);
+  feature = new char[strlen(_feature) + 1];
+  strcpy(feature, _feature);
 }
 
 // Copy's a feature into another Feature object. Used
