@@ -38,7 +38,7 @@ bool Apartment_list::add_apartment(Apartment & _apartment)
     temp->apartment.copy_entry(_apartment);
     head = temp;
     head->next = nullptr;
-    std::cout << "Empty list Apartment Added!" << std::endl;
+    //std::cout << "Empty list Apartment Added!" << std::endl;
     return true;
   }
 
@@ -55,7 +55,7 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
     temp->apartment.copy_entry(_apartment);
     head = temp;
     head->next = nullptr;
-    std::cout << "Base Case Apartment Added!" << std::endl;
+    //std::cout << "Base Case Apartment Added!" << std::endl;
     return true;
   }
 
@@ -66,7 +66,7 @@ bool Apartment_list::add_apartment(node * & head, Apartment & _apartment)
   // Alphatbetical add 
   if(strcmp(_apartment.get_name(), head->apartment.get_name()) < 0 )
   {
-    std::cout << "Comparison Apartment Added!" << std::endl;
+    //std::cout << "Comparison Apartment Added!" << std::endl;
     node * temp = head;
     head = new node;
     head->apartment.copy_entry(_apartment);
@@ -100,7 +100,10 @@ bool Apartment_list::display_apartment_list(node* & head)
   if(!head)
     return true;
 
+  std::cout << std::endl;
+  std::cout << "==========================================" << std::endl;
   head->apartment.display();
+  std::cout << std::endl;
   return display_apartment_list(head->next);
 }
 
@@ -151,4 +154,71 @@ bool Apartment_list::remove_apartment(char * _name)
     
     //Apartment name not in list.
     return false;
+}
+
+// Pass the name of the apartment that we want to add a feature for 
+// along with a feature object. Returns true if the apartment is found 
+// and false if not. 
+// Returns false if empty of if character array is set to null.
+    
+bool Apartment_list::add_feature(char * _name, Feature & _feature)
+{
+    if (!head || !_name)
+        return false;
+    
+    node *temp = head;
+    while(temp)
+    {
+        if(strcmp(temp->apartment.get_name(), _name) == 0)
+        {
+            temp->apartment.add_feature(_feature);
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool Apartment_list::display_feature_list(char * _name)
+{
+    bool success = false;
+    if (!head || !_name)
+        return success;
+    
+    node *temp = head;
+    while(temp)
+    {
+        if(strcmp(temp->apartment.get_name(), _name) == 0)
+        {
+            //std::cout << "Found Apartment" << std::endl;
+            temp->apartment.display_feature_list();
+            success = true;
+        }
+        temp = temp->next;
+    }
+
+    return success;
+}
+
+bool Apartment_list::display_feature_specific(char * _feature_to_find)
+{
+    bool success = false;
+    if (!head || !_feature_to_find)
+        return success;
+    
+    node *temp = head;
+    while(temp)
+    {
+        if(temp->apartment.has_feature(_feature_to_find))
+        {
+            //std::cout << "Found feature" << std::endl;
+            std::cout << "==========================================" << std::endl;
+            temp->apartment.display();
+            std::cout << std::endl;
+            success = true;
+        }
+        temp = temp->next;
+    }
+
+    return success;
 }

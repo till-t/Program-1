@@ -2,6 +2,20 @@
 // June, 2022
 // Program 1- Apartment Shopping List
 
+
+//
+//@ Dev
+// Apartment object
+// ====================
+// This class is used for the storage and manipulation of data related to apartments. 
+// Data stored includes the name of the apartment complex (character array), 
+// the number of bedrooms(integer), the number of bathrooms(float), the cost of 
+// rent(float), and whether or not the apartment has air conditioning(integer/boolean).
+// This class also controls the head node of a linked list. The linked list in this 
+// class is used for storage of features pertaining to each apartment complex. The functions
+// available to use on this linked list of features includes adding, removing, displaying
+// and determining if the feature is present at the apartment complex.
+
 #ifndef APARTMENT_H
 #define APARTMENT_H
 
@@ -15,7 +29,6 @@ struct Feature_node
 {
   Feature feature;
   Feature_node * next;
-
 };
 
 // Comments for .h files
@@ -29,20 +42,22 @@ class Apartment
   public:
     Apartment();
     ~Apartment();
-    Apartment(char* _name, int _bedrooms, float _rent, float _bathrooms);
+    Apartment(char* _name, int _bedrooms, float _rent, float _bathrooms, int _air_conditioning);
     int copy_entry(const Apartment & copy_from);
     int display(void);
 
     // Display only apartments that have a specific feature (also can display review)
     // Pass the name of the feature as an argument. Return error if no apartments have a matching feature.
-    bool display_feature_specific(Feature_node * & head, char * feature); // Recursive function
     bool display_feature_specific(char * feature); // Iterative function
     
     // Add a feature and review for a given apartment.
-    // Pass name of apartment as argument 1, and the Feature object (feature, review) that we want to add.
-    bool add_feature(Feature_node * & head, char * _name, Feature & _feature); // Recursive function
-    bool add_feature(char * _name, Feature & _feature); // Iterative function
-    void set_apartment(char* _name, int _bedrooms, float _rent, float _bathrooms);
+    // Pass a feature object as an argument. Returns false if the feature is already in the list. 
+    bool add_feature(Feature & _feature); 
+    
+    // Allows client to change the values stored in an apartment object.
+    // Returns true for success and false for failure
+    bool set_apartment(char* _name, int _bedrooms, float _rent, float _bathrooms, int _air_conditioning);
+    float round(float arg);
 
     // Getters 
     // ========================================================================================
@@ -56,20 +71,17 @@ class Apartment
     // ========================================================================================
     void delete_feature_list(); // Release all dynamic memory
 
-    // Add a new apartment by passing info for apartment as arguments.
-    // Return an error if the apartment is already in the list.
-    // Recursive function
-    bool add_feature(Feature & _feature);
-    bool add_feature(Feature_node * & head, Feature & _feature);
-
     //Display all apartments in the list
     // Recursive function
     bool display_feature_list();
-    bool display_feature_list(Feature_node* & head);
     
     // Remove an apartment from the list.
     // Pass the name of the apartment to be removed as an argument.
-    bool remove_feature(char * _name); // Iterative function
+    int remove_feature(char * _name);
+
+    // Checks to see if an apartment has a given feature. 
+    // Returns binary value to indicate whether the feature is present or not.
+    int has_feature(char * to_find);
  
   // ===============================================================================================
   private:
@@ -77,8 +89,12 @@ class Apartment
     int bedrooms;
     float rent;
     float bathrooms; 
+    int air_conditioning;
     Feature_node * feature_head;
 
+    bool display_feature_specific(Feature_node * & head, char * feature_name); // Recursive function
+    bool display_feature_list(Feature_node* & head);
+    bool add_feature(Feature_node * & head, Feature & _feature);// Recursive function
 };
 
 #endif

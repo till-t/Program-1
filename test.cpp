@@ -3,9 +3,9 @@
 // Program 1- Apartment Shopping List
 
 
-// Comments for main
-// - How does it fully meet the test plan
+// Requirements for test plan
 // - 
+//
 
 #include <iostream>
 #include "List.h"
@@ -21,6 +21,7 @@ void get_input(int & _bedrooms);
 void get_input(float & _bathrooms);
 void get_input(float & _rent);
 void make_apartment(Apartment & _apartment);
+void make_feature(Feature& _feature);
 
 const int SIZE = 100;
 
@@ -52,13 +53,14 @@ void displayMenu(int& menu_choice) {
     std::cout << "1) Add an apartment.\n";
     std::cout << "2) Remove an apartment.\n";
     std::cout << "3) Display apartments.\n";
-    //std::cout << "4) Add a feature for an apartment.\n";
-    //std::cout << "5) Display apartments with feature.\n";
-    std::cout << "4) Exit.\n";
+    std::cout << "4) Add a feature for an apartment.\n";
+    std::cout << "5) Display apartments with feature.\n";
+    std::cout << "6) Display all features for an apartment.\n";
+    std::cout << "7) Exit.\n";
     std::cout << "Enter: ";
     std::cin >> menu_choice;
     std::cin.ignore(SIZE, '\n');
-    if (menu_choice > 4 || menu_choice < 1) 
+    if (menu_choice > 7 || menu_choice < 1) 
     {
       std::cout << "Invalid Entry. Please enter a number from the options list provided.\n\n\n\n" << std::endl;
         displayMenu(menu_choice);
@@ -71,17 +73,17 @@ void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
   //Takes in user input for menu choice and calls the appropriate function.
   int no = 0;
   int proceed = 1;
-  Apartment _apartment;
   switch(menu_choice)
     {
       case 1:
         {
-        make_apartment(_apartment);
+          Apartment _apartment;
+          make_apartment(_apartment);
 
-        bool success = _list.add_apartment(_apartment);
-        if (success)
-          std::cout << "Added successfully!" << std::endl;
-        break;
+          bool success = _list.add_apartment(_apartment);
+          if (!success)
+            std::cout << "Error encountered." << std::endl;
+          break;
         }
 
       case 2: 
@@ -89,22 +91,77 @@ void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
         char* name = new char[SIZE];
         std::cout << "Please enter the name of the apartment complex that we want to remove: ";
         get_input(name);
-        _list.remove_apartment(name);
+        bool success = _list.remove_apartment(name);
+        std::cout << "Removing apartment..." << std::endl;
+        if (!success)
+          std::cout << "Error encountered. Error cases are an empty list, the character array is set to null, or the apartment is not in the list." << std::endl;
+
+
+        delete [] name;
         break;
         }
 
       case 3:
         {
-        _list.display_apartment_list();
-        break;
+          std::cout << "Here is all the apartments we have so far: ";
+          std::cout << std::endl;
+          _list.display_apartment_list();
+          break;
         }
 
       case 4: 
         {
-        std::cout << "Are you sure you want to exit?" << std::endl;
-        proceed = no;
-        break;
+          Feature _feature;
+          std::cout << "Please enter the name of the apartment complex that you would like to add a feature for: ";
+          char* name = new char[SIZE];
+          get_input(name);
+          make_feature(_feature);
+          std::cout << "Adding feature..." << std::endl;
+          bool success = _list.add_feature(name, _feature);
+          if (!success)
+            std::cout << "Error encountered. Error cases are an empty list or the character array set to null." << std::endl;
+
+          delete [] name;
+          break;
         }
+
+      case 5: 
+        {
+          std::cout << "Please enter the name of the feature that you would like in your apartment: ";
+          char* name = new char[SIZE];
+          get_input(name);
+          std::cout << std::endl;
+          std::cout << "These apartments have a " << name << std::endl;
+          bool success = _list.display_feature_specific(name);
+          if (!success)
+            std::cout << "Error encountered. Error cases are an empty list, character array set to null, or the feature is not included with any apartment." << std::endl;
+          delete [] name;
+
+          break;
+        }
+
+      case 6: 
+        {
+          std::cout << "Please enter the name of the apartment complex to see its features: ";
+          char* name = new char[SIZE];
+          get_input(name);
+          std::cout << std::endl;
+          std::cout << "Here are " << name << " features and reviews." << std::endl;
+          bool success = _list.display_feature_list(name);
+          if (!success)
+            std::cout << "Error encountered. Error cases are an empty list, character array set to null, or the feature is not included with any apartment." << std::endl;
+          delete [] name;
+
+          break;
+        }
+
+
+      case 7: 
+            {
+            std::cout << "Are you sure you want to exit?" << std::endl;
+            proceed = no;
+            break;
+            }
 
       default:
           break;
@@ -127,6 +184,7 @@ void make_apartment(Apartment & _apartment)
   int bedrooms;
   float bathrooms;
   float rent;
+  int air_conditioning;
 
   std::cout << "Please enter the name of the apartment complex: ";
   get_input(name);
@@ -140,9 +198,25 @@ void make_apartment(Apartment & _apartment)
   get_input(bathrooms);
   std::cout << "Please enter the cost of rent per month: ";
   get_input(rent);
-  _apartment.set_apartment(name, bedrooms, rent, bathrooms);
+  std::cout << "Please enter whether the apartment has air conditioning or not. (1 for yes, 0 for no): ";
+  get_input(air_conditioning);
+  _apartment.set_apartment(name, bedrooms, rent, bathrooms, air_conditioning);
   delete [] name;
 }
+
+void make_feature(Feature& _feature)
+{
+  char* feature = new char[SIZE];
+  char* review  = new char[SIZE];
+  std::cout << "Please enter the feature that you would like to review: ";
+  get_input(feature);
+  std::cout << "Please enter the review: ";
+  get_input(review);
+  _feature.set_feature(feature, review);
+  delete [] feature;
+  delete [] review;
+}
+
 
 void get_input(char* & _value)
 {

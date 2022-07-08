@@ -2,6 +2,14 @@
 // June, 2022
 // Program 1- Apartment Shopping List
 
+// @ Dev
+// ====================
+// This class is used for the storage of data pertaining to features at a given apartment complex.
+// Data stored includes the name of the feature (character array), and the review of the given 
+// feature (character array). Functions available for this class include setting a feature object
+// given client input, displaying a feature and review, and copying one Feature object to another. 
+// This class is implemented inside of a linked list which is controlled by the Apartment class. 
+
 #ifndef FEATURE_H 
 #define FEATURE_H 
 
