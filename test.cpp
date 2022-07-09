@@ -4,8 +4,27 @@
 
 
 // Requirements for test plan
-// - 
-//
+// - For the test plan, the user will be responsible for providing the inputs to be tested 
+// as well as the order that we would want to test them in. For instance what happens when
+// we add a feature to an empty list? I will provide a list of situations that I have 
+// think would be good to test. If their are additional cases that you see as useful in testing
+// this program, please submit a PR with the desired changes to the github repository. 
+// GITHUB : https://github.com/till-t/Program-1.git
+
+// Tests Ideas
+// ===================================================================================================
+// - Add Feature to empty list
+// - Display Apartments of an empty list
+// - Display Features of an empty list
+// - Remove an apartment from an empty list
+// - Remove an feature from an empty list
+// - Enter invalid names, such as integers for what should be characters, floats for bools, etc.
+// - Enter an empty charater array for an apartment
+// - Enter the same apartment name twice
+// - Enter the same feature name twice
+// - Add feature for an apartment not in the list
+// - Enter and exit the program immediately
+// - Display Features of an empty list
 
 #include <iostream>
 #include "List.h"
@@ -119,7 +138,7 @@ void processChoice (bool& flag, int menu_choice, Apartment_list & _list)
           std::cout << "Adding feature..." << std::endl;
           bool success = _list.add_feature(name, _feature);
           if (!success)
-            std::cout << "Error encountered. Error cases are an empty list or the character array set to null." << std::endl;
+            std::cout << "Error encountered. Error cases are an empty list, character array set to null, the feature is already in the list, or the apartment is not in the list." << std::endl;
 
           delete [] name;
           break;

@@ -145,6 +145,9 @@ bool Apartment::add_feature(Feature & _feature)
     return true;
   }
 
+  if(has_feature(_feature.get_feature()))
+    return false;
+
   return add_feature(feature_head, _feature);
 }
 

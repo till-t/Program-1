@@ -5,7 +5,13 @@
 // @ Dev
 // Apartment List Object
 // ====================
-//  
+// This class is used for the storgae of Apartment objects, and in turn, Feature objects.
+// The data structure used for storage is a linear linked list with a head node as the 
+// only point of entry into the data. Functions included are adding Apartment objects, 
+// removing Apartment objects, displaying all objects in the list, adding a feature to 
+// a given apartment, displaying all features for a given apartment, and displaying all 
+// apartments for a given feature. Recursive functions used include adding an apartment
+// object and displaying all apartments in the linked list. 
 
 #ifndef LIST_H
 #define LIST_H
@@ -34,12 +40,10 @@ class Apartment_list
     // Return an error if the apartment is already in the list.
     // Recursive function
     bool add_apartment(Apartment & _apartment);
-    bool add_apartment(node * & head, Apartment & _apartment);
 
     //Display all apartments in the list
     // Recursive function
     bool display_apartment_list();
-    bool display_apartment_list(node* & head);
     
     // Remove an apartment from the list.
     // Pass the name of the apartment to be removed as an argument.
@@ -64,6 +68,8 @@ class Apartment_list
  private:
     node * head;
 
+    bool add_apartment(node * & head, Apartment & _apartment);
+    bool display_apartment_list(node* & head);
 };
 
 #endif
